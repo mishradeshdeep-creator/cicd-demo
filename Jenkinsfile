@@ -22,6 +22,11 @@ pipeline {
                 echo 'Deploying application'
             }
         }
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t cicd-demo:latest .'
+            }
+        }
     }
  
     post {

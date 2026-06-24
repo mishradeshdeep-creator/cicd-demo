@@ -27,7 +27,8 @@ pipeline {
         sh '''
             docker run --rm \
             -v $(pwd)/db/changelog:/liquibase/changelog \
-            liquibase/liquibase:latest \
+            liquibase/liquibase:4.23.0 \
+            --driver=org.postgresql.Driver \
             --url=jdbc:postgresql://cicd-demo-db.c3aq80qsa382.ap-south-1.rds.amazonaws.com:5432/appdb \
             --username=ControllerDB \
             --password=Admin12345! \

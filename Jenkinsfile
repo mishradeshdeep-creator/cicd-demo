@@ -22,19 +22,15 @@ pipeline {
                 echo 'Deploying application'
             }
         }
-        stage('Database Migration') {
-            steps {
-            sh '''
-            docker run --rm \
-            -v $(pwd)/db/changelog:/liquibase/changelog \
-            -v $(pwd)/db/changelog:/liquibase/changelog \
-            --env INSTALL_MYSQL=false \
-            liquibase/liquibase:4.25.1 \
+    stage('Database Migration') {
+    steps {
+        sh '''
+            liquibase \
             --url=jdbc:postgresql://cicd-demo-db.c3aq80qsa382.ap-south-1.rds.amazonaws.com:5432/appdb \
             --username=ControllerDB \
             --password=Admin12345! \
-            --changeLogFile=changelog/db.changelog-root.xml \
-            --classpath=/liquibase/internal/lib/postgresql.jar \
+            --changeLogFile=db/changelog/db.changelog-root.xml \
+            --classpath=/usr/local/liquibase/lib/postgresql-42.6.0.jar \
             update
         '''
     }

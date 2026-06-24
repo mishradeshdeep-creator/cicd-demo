@@ -27,7 +27,7 @@ pipeline {
         sh '''
             liquibase \
             --url=jdbc:postgresql://cicd-demo-db.c3aq80qsa382.ap-south-1.rds.amazonaws.com:5432/appdb \
-            --username=ControllerDB \
+            --username=CotrollerDB \
             --password=Admin12345! \
             --changeLogFile=db/changelog/db.changelog-root.xml \
             --classpath=/usr/local/liquibase/lib/postgresql-42.6.0.jar \

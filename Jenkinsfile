@@ -23,20 +23,22 @@ pipeline {
             }
         }
         stage('Database Migration') {
-    steps {
-        sh '''
+            steps {
+            sh '''
             docker run --rm \
             -v $(pwd)/db/changelog:/liquibase/changelog \
-            liquibase/liquibase:4.23.0 \
-            --driver=org.postgresql.Driver \
+            -v $(pwd)/db/changelog:/liquibase/changelog \
+            --env INSTALL_MYSQL=false \
+            liquibase/liquibase:4.25.1 \
             --url=jdbc:postgresql://cicd-demo-db.c3aq80qsa382.ap-south-1.rds.amazonaws.com:5432/appdb \
             --username=ControllerDB \
             --password=Admin12345! \
             --changeLogFile=changelog/db.changelog-root.xml \
+            --classpath=/liquibase/internal/lib/postgresql.jar \
             update
         '''
-        }
     }
+}
         stage('Docker Build & Push to ECR') {
         steps {
            sh 'aws ecr get-login-password --region ap-south-1 > /tmp/pass.txt'

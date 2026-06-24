@@ -30,7 +30,6 @@ pipeline {
                 sh 'docker push 430689518036.dkr.ecr.ap-south-1.amazonaws.com/cicd-demo:latest'
             }
         }
-        
     }
  
     post {
@@ -40,5 +39,5 @@ pipeline {
         failure {
             echo 'Pipeline failed!'
         }
-    } 
+    }
 }

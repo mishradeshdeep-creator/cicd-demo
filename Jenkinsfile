@@ -25,7 +25,7 @@ pipeline {
     stage('Database Migration') {
     steps {
         sh '''
-            liquibase \
+            /usr/local/bin/liquibase \
             --url=jdbc:postgresql://cicd-demo-db.c3aq80qsa382.ap-south-1.rds.amazonaws.com:5432/appdb \
             --username=CotrollerDB \
             --password=Admin12345! \

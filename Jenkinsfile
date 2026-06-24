@@ -22,6 +22,20 @@ pipeline {
                 echo 'Deploying application'
             }
         }
+        stage('Database Migration') {
+    steps {
+        sh '''
+            docker run --rm \
+            -v $(pwd)/db/changelog:/liquibase/changelog \
+            liquibase/liquibase:latest \
+            --url=jdbc:postgresql://cicd-demo-db.c3aq80qsa382.ap-south-1.rds.amazonaws.com:5432/appdb \
+            --username=ControllerDB \
+            --password=Admin12345! \
+            --changeLogFile=changelog/db.changelog-root.xml \
+            update
+        '''
+        }
+    }
         stage('Docker Build & Push to ECR') {
         steps {
            sh 'aws ecr get-login-password --region ap-south-1 > /tmp/pass.txt'
@@ -31,6 +45,7 @@ pipeline {
            sh 'docker push 430689518036.dkr.ecr.ap-south-1.amazonaws.com/cicd-demo:latest'
         }
     }
+    
 }
  
     post {
